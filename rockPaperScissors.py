@@ -42,9 +42,9 @@ def resetGame():
     rockBtn["state"] = "active"
     paperBtn["state"] = "active"
     scissorsBtn["state"] = "active"
-    playerScoreLbl.config(text="Player   ")
+    playerScoreLbl.config(text="Player:")
     CpuScoreLbl.config(text="CPU")
-    gameLbl.config(text="")
+    roundResultLbl.config(text="")
 
 def disableBtns():
     rockBtn["state"] = "disable"
@@ -56,3 +56,10 @@ def playersMove(int playerChoice):
     roundResultInt = rules[playerChoice][cpuChoice]
     if roundResultInt == 1:
         roundResult = "Player wins"
+    elif roundResultInt == -1:
+        roundResult = "CPU wins!"
+    else:
+        roundResult = "Draw"
+    roundResultLbl.config(text=roundResult)
+
+    
