@@ -38,14 +38,13 @@ rules = {
     }    
 }
 
-def resetGame():
-    rockBtn["state"] = "active"
-    paperBtn["state"] = "active"
-    scissorBtn["state"] = "active"
-    playerScoreLbl.config(text="Player:")
-    cpuScoreLbl.config(text="CPU:")
-    cpuChoiceLbl.config(text="")
-    roundResultLbl.config(text="")
+def refresh():
+    global playerScore
+    global cpuScore
+    playerScoreLbl.config(text="Player Score:"+str(playerScore))
+    cpuScoreLbl.config(text="CPU Score:"+str(cpuScore))
+    # cpuChoiceLbl.config(text="")
+    # roundResultLbl.config(text="")
 
 def disableBtns():
     rockBtn["state"] = "disable"
@@ -54,15 +53,20 @@ def disableBtns():
 
 def playersMove(playerChoice):
     cpuChoice = random.randint(0, 2)
-    cpuChoiceLbl.config(text=cpuChoice)
+    cpuChoiceLbl.config(text="CPU picks "+choices[cpuChoice])
     roundResultInt = rules[playerChoice][cpuChoice]
     if roundResultInt == 1:
         roundResult = "Player wins"
+        global playerScore
+        playerScore += 1
     elif roundResultInt == -1:
         roundResult = "CPU wins!"
+        global cpuScore
+        cpuScore += 1
     else:
         roundResult = "Draw"
     roundResultLbl.config(text=roundResult)
+    refresh()
 
 # Labels, Frames & Buttons
 tk.Label(window,
@@ -70,21 +74,26 @@ tk.Label(window,
       font="normal 20 bold",
       fg="blue").pack(pady=20)     
 
-frame = tk.Frame(window)
-frame.pack()
+scoreFrame = tk.Frame(window)
+scoreFrame.pack()
+roundFrame = tk.Frame(window)
+roundFrame.pack()
 
-playerScoreLbl = tk.Label(frame,
-                       text="Player Score:",
+# Score Frame
+playerScoreLbl = tk.Label(scoreFrame,
+                       text="Player Score:"+str(playerScore),
                        font=10)
-cpuScoreLbl = tk.Label(frame,
-                       text="CPU Score:",
+cpuScoreLbl = tk.Label(scoreFrame,
+                       text="CPU Score:"+str(cpuScore),
                        font=10)
-cpuChoiceLbl = tk.Label(frame,
-                        text="CPU pick",
+
+# Round Frame
+cpuChoiceLbl = tk.Label(roundFrame,
+                        text="",
                         font=10)
 playerScoreLbl.pack(side=tk.LEFT)
 cpuScoreLbl.pack(side=tk.LEFT)
-cpuChoiceLbl.pack(side=tk.RIGHT)
+cpuChoiceLbl.pack(side=tk.LEFT)
 roundResultLbl = tk.Label(window,
                        text="",
                        font="normal 20 bold",
